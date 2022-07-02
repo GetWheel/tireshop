@@ -15,7 +15,7 @@
 #	express or implied. See the License for  the  specific  language
 #	governing permissions and limitations under the License.
 #__________________________________________________________________DOCUMENTATION
-'''GitHy_BootStrap.py
+'''getwheel_bootstrap.py
 Provides a Virtualenv BootStrap with the latest stable version of the following
 packages:
     cython
