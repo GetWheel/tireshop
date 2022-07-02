@@ -5,8 +5,7 @@ version from the official git repos.
 
 ```
 cd /path/to/GitHy
-./GitHy_BootStrap.py
-./BootStrap/bin/python ./tryhy.py
+./getwheel_bootstrap.py
 ```
 
 should get you started

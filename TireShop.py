@@ -15,11 +15,10 @@
 #	express or implied. See the License for  the  specific  language
 #	governing permissions and limitations under the License.
 #__________________________________________________________________DOCUMENTATION
-'''stuff.py
-"GitHy_BootStrap.PkgInstall" the following packages:
-
-Revision Tags Last updated 2014-6-13
-sudo apt-get install python-dev
+'''TireShop.py
+check if wheel exists in wheelrack matches version in tireshop.conf do nothing
+else for each package listed create wheel of correct version maintianing a 
+tarball of a nocheckout that is no files besides git files
 '''
 #________________________________________________________________Library Imports
 import subprocess, threading, re, os, sys, inspect, shutil, argparse, random, math
@@ -45,7 +44,9 @@ import GitHy_BootStrap
 
 #____________________________________________________________________Main Script
 #GitHy_BootStrap.PkgInstall(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
-#GitHy_BootStrap.PkgInstall(PkgName="setuptools", GitUrl="https://github.com/pypa/setuptools.git", TagName="v52.0.0", cwfd=cwfd)#v61.2.0
+#GitHy_BootStrap.PkgInstall(PkgName="cython", GitUrl="https://github.com/cython/cython.git", TagName="0.29.28", cwfd=cwfd)
+#GitHy_BootStrap.PkgInstall(PkgName="packaging", GitUrl="https://github.com/pypa/packaging.git", TagName="21.3", cwfd=cwfd)
+#GitHy_BootStrap.PkgInstall(PkgName="wheel", GitUrl="https://github.com/pypa/wheel.git", TagName="0.37.1", cwfd=cwfd)
 
 GitHy_BootStrap.PkgInstall(PkgName="numpy", GitUrl="https://github.com/numpy/numpy.git", TagName="v1.19.3", cwfd=cwfd)
 GitHy_BootStrap.PkgInstall(PkgName="pandas", GitUrl="https://github.com/pydata/pandas.git", TagName="v1.4.1", cwfd=cwfd)
@@ -53,6 +54,8 @@ GitHy_BootStrap.PkgInstall(PkgName="sphinx", GitUrl="https://github.com/sphinx-d
 GitHy_BootStrap.PkgInstall(PkgName="six", GitUrl="https://github.com/benjaminp/six.git", TagName="1.16.0", cwfd=cwfd)
 GitHy_BootStrap.PkgInstall(PkgName="pyinstaller", GitUrl="https://github.com/pyinstaller/pyinstaller.git", TagName="v4.10", cwfd=cwfd)
 GitHy_BootStrap.PkgInstall(PkgName="PyOpenGL", GitUrl="https://github.com/mcfletch/openglcontext.git", TagName="dd03eba62c5636cff309e8def4422af807614288", cwfd=cwfd)#PyOpenGL
+
+#GitHy_BootStrap.PkgInstall(PkgName="setuptools", GitUrl="https://github.com/pypa/setuptools.git", TagName="v52.0.0", cwfd=cwfd)#v61.2.0
 
 #https://github.com/pyside/pyside-setup
 #GitHy_BootStrap.PkgInstall(PkgName="pyside2", GitUrl="https://github.com/pyside/pyside2-setup.git", TagName="v5.15.2", cwfd=cwfd)# needs libclang-dev, python3-dev, libpython3-dev, and qtbase5-private-dev #v5.15.2 worked and v6.0.1 didn't
