@@ -97,6 +97,7 @@ with open(tireconf, "r") as file:
         #print( whlfile )
         if os.path.exists(whlfile):
             print(key + " is already built")
+            installwheel(whlfile)
         else:
             print(key + " is not built")
             tire_list.get(key)['wheelfile'] = wheelfab(PkgName=key, GitUrl=tire_list.get(key)['GitUrl'], TagName=tire_list.get(key)['TagName'], cwfd=cwfd)
