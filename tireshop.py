@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 # coding=utf-8
 #________________________________________________________________________LICENSE
-#	Copyright © 2022 Roy Pfund. All rights reserved.
+#    Copyright © 2022 Roy Pfund. All rights reserved.
 #
-#	Licensed under the Apache License, Version 2.0 (the  "License");
-#	you may not use this file except in compliance with the License.
-#	You may obtain a copy of the License at
+#    Licensed under the Apache License, Version 2.0 (the  "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
-#		http://www.apache.org/licenses/LICENSE-2.0
+#        http://www.apache.org/licenses/LICENSE-2.0
 #
-#	Unless required by applicable  law  or  agreed  to  in  writing,
-#	software distributed under the License is distributed on an  "AS
-#	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,  either
-#	express or implied. See the License for  the  specific  language
-#	governing permissions and limitations under the License.
+#    Unless required by applicable  law  or  agreed  to  in  writing,
+#    software distributed under the License is distributed on an  "AS
+#    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,  either
+#    express or implied. See the License for  the  specific  language
+#    governing permissions and limitations under the License.
 #__________________________________________________________________DOCUMENTATION
 '''tireshop.py
 do nothing if wheel in tirerack matches filename in tireshop.conf
@@ -41,36 +41,41 @@ import yaml
     #pyinstaller
     #PyOpenGL
 def wheelfab(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
-	print(cwfd)
-	gittar.gittar(PkgName=PkgName, GitUrl=GitUrl, TagName=TagName, cwfd=cwfd)
-	PkgDir = cwfd + '/Pkg/' + PkgName
-	print( "\ncreating wheel: "+ PkgName +"\n" )
-	SPObject_newwheel = subprocess.Popen(
+    print(cwfd)
+    gittar.gittar(PkgName=PkgName, GitUrl=GitUrl, TagName=TagName, cwfd=cwfd)
+    PkgDir = cwfd + '/Pkg/' + PkgName
+    print( "\ncreating wheel: "+ PkgName +"\n" )
+    SPObject_newwheel = subprocess.Popen(
 #python setup.py bdist_wheel --universal
 #Remove the --universal tag if you want to create a Pure-Python Wheel.
-		[cwfd + '/BootStrap/bin/python3', PkgDir + '/setup.py', 'bdist_wheel', \
+        [cwfd + '/BootStrap/bin/python3', PkgDir + '/setup.py', 'bdist_wheel', \
             #'--qtpaths=/usr/lib/qt5/bin', \
             #'--parallel=4'
             ], #'--qtpaths=/usr/lib/qt5/bin' #], #'--qtpaths=/usr/lib/qt5/bin'
-		stdin=None, stdout=None, stderr=None, cwd=PkgDir, env=None)
-	SPObject_newwheel.wait()
-	newwheel = os.listdir( PkgDir + '/dist')[0]
-	print(newwheel + '\n')
-	shutil.move( PkgDir + '/dist/' + newwheel , \
+        stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=PkgDir, env=None)
+    log = SPObject_newwheel.communicate()[0]
+    SPObject_newwheel.wait()
+    if (os.listdir( PkgDir + '/dist')[0] == ""):# save all logs if build failed
+        logfile = PkgDir + '/dist' + PkgName + TagName + ".log"
+        with open(logfile, "wb") as file:
+            file.write(log)
+    newwheel = os.listdir( PkgDir + '/dist')[0]
+    #print(newwheel + '\n')
+    shutil.move( PkgDir + '/dist/' + newwheel , \
                 cwfd + '/tirerack/' + newwheel )#PkgName + TagName + ".whl" )
-	return newwheel
+    return newwheel
 
 def installwheel(newwheel):
-	print("installing" + newwheel + '\n')
-	tirerack = cwfd + '/tirerack/' + newwheel
-	SPObject_install = subprocess.Popen(
+    print("installing" + newwheel + '\n')
+    tirerack = cwfd + '/tirerack/' + newwheel
+    SPObject_install = subprocess.Popen(
 #python setup.py bdist_wheel --universal
 #Remove the universal tag if you want to create a Pure-Python Wheel.
         [cwfd + '/BootStrap/bin/python3', '-m', 'pip', 'install', \
             newwheel   \
             ], #'--qtpaths=/usr/lib/qt5/bin' #], #'--qtpaths=/usr/lib/qt5/bin'
-		stdin=None, stdout=None, stderr=None, cwd=None, env=None)
-	SPObject_install.wait()
+        stdin=None, stdout=None, stderr=None, cwd=None, env=None)
+    SPObject_install.wait()
 
 #____________________________________________________________________Main Script
 #wheelfab(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
@@ -159,6 +164,6 @@ wheelfab(PkgName="bottle", GitUrl="https://github.com/defnull/bottle.git", TagNa
 wheelfab(PkgName="flask", GitUrl="https://github.com/mitsuhiko/flask.git", TagName="1.0", cwfd=cwfd)
 
 exit()
-		#this kindof worked once #[cwfd + '/BootStrap/bin/python3', '-m', 'pip', 'wheel', '--no-deps', PkgDir   \
+        #this kindof worked once #[cwfd + '/BootStrap/bin/python3', '-m', 'pip', 'wheel', '--no-deps', PkgDir   \
         #from https://stackoverflow.com/a/39579922/144020
         #and https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
