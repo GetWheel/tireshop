@@ -75,6 +75,9 @@ def installwheel(newwheel):
 #____________________________________________________________________Main Script
 #wheelfab(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
 #installwheel("")
+tirerack = cwfd + '/tirerack/'
+if not os.path.isdir(os.path.dirname(tirerack)):
+    os.mkdir(os.path.dirname(tirerack))
 tireconf = cwfd + "/tireshop.conf.yaml"
 print("opening "+ tireconf + "\n")
 newconf = ""
