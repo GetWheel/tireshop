@@ -29,7 +29,7 @@ rows, columns = os.popen('stty size', 'r').read().split() #http://goo.gl/cD4CFf
 #the documentation at "http://localhost:1234/" in your preferred Web browser.
 cwf = os.path.abspath(inspect.getfile(inspect.currentframe())) # Current Working File
 cwfd = os.path.dirname(cwf) # Current Working File Path
-
+from tireshop import *
 #______________________________________________________________________Functions
 
 def PkgInstall(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
@@ -56,6 +56,8 @@ if __name__ == "__main__":
 		[cwfd + '/BootStrap/bin/python3', cwfd + '/init.py'],
 		stdin=None, stdout=None, stderr=None, cwd=cwfd, env=None)
 	SPObject_init.wait()
+    wheelfab(PkgName="pyyaml", GitUrl="https://github.com/yaml/pyyaml.git", TagName="6.0", cwfd=cwfd)
+    installwheel(cwfd + '/tirerack/' + "PyYAML-6.0-cp39-cp39-linux_x86_64.whl")
 
 	#https://github.com/pypa/virtualenv
 	#PkgInstall(PkgName="virtualenv", GitUrl="https://github.com/pypa/virtualenv.git", TagName="20.4.4", cwfd=cwfd)

@@ -1,0 +1,24 @@
+numpy:
+  TagName: v1.19.3
+  GitUrl: https://github.com/numpy/numpy.git
+  wheelfile: numpy-1.19.3-cp39-cp39-linux_x86_64.whl
+pandas:
+  TagName: v1.4.1
+  GitUrl: https://github.com/pydata/pandas.git
+  wheelfile: pandas-1.4.1-cp39-cp39-linux_x86_64.whl
+sphinx:
+  TagName: v4.4.0
+  GitUrl: https://github.com/sphinx-doc/sphinx.git
+  wheelfile: Sphinx-4.4.0.dev20220704-py3-none-any.whl
+six:
+  TagName: 1.16.0
+  GitUrl: https://github.com/benjaminp/six.git
+  wheelfile: six-1.16.0-py2.py3-none-any.whl
+pyinstaller:
+  TagName: v4.10
+  GitUrl: https://github.com/pyinstaller/pyinstaller.git
+  wheelfile: pyinstaller-4.10-py3-none-any.whl
+PyOpenGL:
+  TagName: dd03eba62c5636cff309e8def4422af807614288
+  GitUrl: https://github.com/mcfletch/openglcontext.git
+  wheelfile: OpenGLContext-2.3.0-py3-none-any.whl

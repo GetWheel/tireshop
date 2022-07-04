@@ -15,12 +15,13 @@
 #	express or implied. See the License for  the  specific  language
 #	governing permissions and limitations under the License.
 #__________________________________________________________________DOCUMENTATION
-'''stuff.py
-"getwheel_bootstrap.PkgInstall" the following packages:
-
-Revision Tags Last updated 2014-6-13
-sudo apt-get install python-dev
+'''tireshop.py
+do nothing if wheel in tirerack matches filename in tireshop.conf
+else rebuild
+else for each package listed create wheel of correct version maintianing a 
+tarball of a nocheckout that is no files besides git files
 '''
+#Revision Tags Last updated 
 #________________________________________________________________Library Imports
 import subprocess, threading, re, os, sys, inspect, shutil, argparse, random, math
 rows, columns = os.popen('stty size', 'r').read().split() #http://goo.gl/cD4CFf
@@ -29,10 +30,10 @@ rows, columns = os.popen('stty size', 'r').read().split() #http://goo.gl/cD4CFf
 cwf = os.path.abspath(inspect.getfile(inspect.currentframe())) # Current Working File
 cwfd = os.path.dirname(cwf) # Current Working File Path
 #from GitTar import GitTar
-import getwheel_bootstrap, gittar
+import gittar #, getwheel_bootstrap
+import yaml
 #______________________________________________________________________Functions
 #https://github.com/cython/cython
-#getwheel_bootstrap.PkgInstall(PkgName="alive-progress", GitUrl="https://github.com/rsalmei/alive-progress.git", TagName="", cwfd=cwfd)
     #numpy
     #pandas
     #sphinx
@@ -44,7 +45,7 @@ def wheelfab(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
 	gittar.gittar(PkgName=PkgName, GitUrl=GitUrl, TagName=TagName, cwfd=cwfd)
 	PkgDir = cwfd + '/Pkg/' + PkgName
 	print( "\ncreating wheel: "+ PkgName +"\n" )
-	SPObject_PkgInstall = subprocess.Popen(
+	SPObject_newwheel = subprocess.Popen(
 #python setup.py bdist_wheel --universal
 #Remove the --universal tag if you want to create a Pure-Python Wheel.
 		[cwfd + '/BootStrap/bin/python3', PkgDir + '/setup.py', 'bdist_wheel', \
@@ -52,37 +53,65 @@ def wheelfab(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
             #'--parallel=4'
             ], #'--qtpaths=/usr/lib/qt5/bin' #], #'--qtpaths=/usr/lib/qt5/bin'
 		stdin=None, stdout=None, stderr=None, cwd=PkgDir, env=None)
-	SPObject_PkgInstall.wait()
+	SPObject_newwheel.wait()
 	newwheel = os.listdir( PkgDir + '/dist')[0]
 	print(newwheel + '\n')
 	shutil.move( PkgDir + '/dist/' + newwheel , \
                 cwfd + '/tirerack/' + newwheel )#PkgName + TagName + ".whl" )
+	return newwheel
 
 def installwheel(newwheel):
 	print("installing" + newwheel + '\n')
 	tirerack = cwfd + '/tirerack/' + newwheel
-	SPObject_PkgInstall = subprocess.Popen(
+	SPObject_install = subprocess.Popen(
 #python setup.py bdist_wheel --universal
 #Remove the universal tag if you want to create a Pure-Python Wheel.
         [cwfd + '/BootStrap/bin/python3', '-m', 'pip', 'install', \
             newwheel   \
             ], #'--qtpaths=/usr/lib/qt5/bin' #], #'--qtpaths=/usr/lib/qt5/bin'
 		stdin=None, stdout=None, stderr=None, cwd=None, env=None)
-	SPObject_PkgInstall.wait()
+	SPObject_install.wait()
 
 #____________________________________________________________________Main Script
 #wheelfab(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
 #installwheel("")
-
-#wheelfab(PkgName="pyyaml", GitUrl="https://github.com/yaml/pyyaml.git", TagName="6.0", cwfd=cwfd)
-#installwheel("/home/owner/GitHy/tirerack/PyYAML-6.0-cp39-cp39-linux_x86_64.whl")
-
+tireconf = cwfd + "/tireshop.conf.yaml"
+print("opening "+ tireconf + "\n")
+newconf = ""
+with open(tireconf, "r") as file:
+    # The FullLoader parameter handles the conversion from YAML
+    # scalar values to Python the dictionary format
+    tire_list = yaml.load(file, Loader=yaml.FullLoader)
+    # List [ ] Tuple ( ) Set { } KeyValDict { key1:value1 , key2:value2}
+    #print(tire_list )
+    for key in tire_list:
+        whlfile = cwfd + "/tirerack/" + tire_list.get(key)['wheelfile']
+        #print( whlfile )
+        if os.path.exists(whlfile):
+            print(key + " is already built")
+        else:
+            print(key + " is not built")
+            tire_list.get(key)['wheelfile'] = wheelfab(PkgName=key, GitUrl=tire_list.get(key)['GitUrl'], TagName=tire_list.get(key)['TagName'], cwfd=cwfd)
+    newconf = str(yaml.dump(tire_list, sort_keys=False))
+    #print(newconf)
+with open(tireconf, "w") as file:
+    file.write(newconf)
 #wheelfab(PkgName="numpy", GitUrl="https://github.com/numpy/numpy.git", TagName="v1.19.3", cwfd=cwfd)
 #installwheel("/home/owner/GitHy/tirerack/numpyv1.19.3.whl")
 #ERROR: numpyv1.19.3.whl is not a valid wheel filename.
 #installwheel("/home/owner/GitHy/tirerack/numpy-1.19.3-cp39-cp39-linux_x86_64.whl")
 
 #wheelfab(PkgName="setuptools", GitUrl="https://github.com/pypa/setuptools.git", TagName="v52.0.0", cwfd=cwfd)#v61.2.0
+
+exit()
+# Dictionary
+d = {}
+d['a'] = "Five"# Adding the key value pair
+d['b'] = "Ten"
+print("Dictionary", d)
+del d['b']# Removing key-value pair
+print("Dictionary", d)
+#yaml.dump(fruits_list, file, default_flow_style = False)
 
 
 #wheelfab(PkgName="pandas", GitUrl="https://github.com/pydata/pandas.git", TagName="v1.4.1", cwfd=cwfd)
