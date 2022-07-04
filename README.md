@@ -1,6 +1,7 @@
-GetWheel / tireshop
-===================
+TireShop
+========
 builds all ".whl" files by tagname and giturl requested in tireshop.conf.yaml file
+all inside a virtual environment
 
 ```
 git clone https://github.com/GetWheel/tireshop
