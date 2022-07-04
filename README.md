@@ -1,11 +1,12 @@
-GitHy
-=====
-"git"s you started with an example server runing hy on a webpage with hy latest
-version from the official git repos.
+GetWheel / tireshop
+===================
+builds all ".whl" files by tagname and giturl requested in tireshop.conf.yaml file
 
 ```
+git clone https://github.com/GetWheel/tireshop
 cd /path/to/GitHy
 ./getwheel_bootstrap.py
+./BootStrap/bin/python3 ./tireshop.py
 ```
 
 should get you started
