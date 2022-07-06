@@ -5,11 +5,11 @@ numpy:
 pandas:
   TagName: v1.4.1
   GitUrl: https://github.com/pydata/pandas.git
-  wheelfile: pandas-1.4.1-cp39-cp39-linux_x86_64.whl
+  wheelfile: pandasv1.4.1.log
 sphinx:
   TagName: v4.4.0
   GitUrl: https://github.com/sphinx-doc/sphinx.git
-  wheelfile: Sphinx-4.4.0.dev20220704-py3-none-any.whl
+  wheelfile: Sphinx-4.4.0.dev20220705-py3-none-any.whl
 six:
   TagName: 1.16.0
   GitUrl: https://github.com/benjaminp/six.git

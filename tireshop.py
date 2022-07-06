@@ -43,7 +43,7 @@ import yaml
 def wheelfab(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
     print(cwfd)
     gittar.gittar(PkgName=PkgName, GitUrl=GitUrl, TagName=TagName, cwfd=cwfd)
-    PkgDir = cwfd + '/Pkg/' + PkgName
+    PkgDir = cwfd + '/Pkg/' + PkgName +"/"
     print( "\ncreating wheel: "+ PkgName +"\n" )
     SPObject_newwheel = subprocess.Popen(
 #python setup.py bdist_wheel --universal
@@ -55,14 +55,20 @@ def wheelfab(PkgName=None, GitUrl=None, TagName=None, cwfd=None):
         stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=PkgDir, env=None)
     log = SPObject_newwheel.communicate()[0]
     SPObject_newwheel.wait()
-    if (os.listdir( PkgDir + '/dist')[0] == ""):# save all logs if build failed
-        logfile = PkgDir + '/dist' + PkgName + TagName + ".log"
-        with open(logfile, "wb") as file:
+    print(PkgDir + 'dist/')
+    if not os.path.isdir(os.path.dirname(PkgDir + 'dist/')):
+        os.mkdir(os.path.dirname(PkgDir + 'dist/'))
+    if (len(os.listdir( PkgDir + 'dist/')) == 0):# save all logs if build failed
+        logfile = PkgName + TagName + ".log"
+        with open(PkgDir + logfile, "wb") as file:
             file.write(log)
-    newwheel = os.listdir( PkgDir + '/dist')[0]
-    #print(newwheel + '\n')
-    shutil.move( PkgDir + '/dist/' + newwheel , \
-                cwfd + '/tirerack/' + newwheel )#PkgName + TagName + ".whl" )
+        newwheel = logfile
+        shutil.move( PkgDir + newwheel , \
+                    cwfd + '/tirerack/' + newwheel )#PkgName + TagName + ".whl" )
+    else:#print(newwheel + '\n')
+        newwheel = os.listdir( PkgDir + 'dist/')[0]
+        shutil.move( PkgDir + '/dist/' + newwheel , \
+                    cwfd + '/tirerack/' + newwheel )#PkgName + TagName + ".whl" )
     return newwheel
 
 def installwheel(newwheel):
@@ -121,14 +127,6 @@ print("Dictionary", d)
 del d['b']# Removing key-value pair
 print("Dictionary", d)
 #yaml.dump(fruits_list, file, default_flow_style = False)
-
-
-#wheelfab(PkgName="pandas", GitUrl="https://github.com/pydata/pandas.git", TagName="v1.4.1", cwfd=cwfd)
-exit()
-wheelfab(PkgName="sphinx", GitUrl="https://github.com/sphinx-doc/sphinx.git", TagName="v4.4.0", cwfd=cwfd)
-wheelfab(PkgName="six", GitUrl="https://github.com/benjaminp/six.git", TagName="1.16.0", cwfd=cwfd)
-wheelfab(PkgName="pyinstaller", GitUrl="https://github.com/pyinstaller/pyinstaller.git", TagName="v4.10", cwfd=cwfd)
-wheelfab(PkgName="PyOpenGL", GitUrl="https://github.com/mcfletch/openglcontext.git", TagName="dd03eba62c5636cff309e8def4422af807614288", cwfd=cwfd)#PyOpenGL
 
 #https://github.com/pyside/pyside-setup
 #wheelfab(PkgName="pyside2", GitUrl="https://github.com/pyside/pyside2-setup.git", TagName="v5.15.2", cwfd=cwfd)# needs libclang-dev, python3-dev, libpython3-dev, and qtbase5-private-dev #v5.15.2 worked and v6.0.1 didn't

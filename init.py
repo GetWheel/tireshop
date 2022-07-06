@@ -16,7 +16,7 @@
 #	governing permissions and limitations under the License.
 #__________________________________________________________________DOCUMENTATION
 '''stuff.py
-"GitHy_BootStrap.PkgInstall" the following packages:
+"getwheel_bootstrap.PkgInstall" the following packages:
 
 Revision Tags Last updated 2014-6-13
 sudo apt-get install python-dev
@@ -29,19 +29,21 @@ rows, columns = os.popen('stty size', 'r').read().split() #http://goo.gl/cD4CFf
 cwf = os.path.abspath(inspect.getfile(inspect.currentframe())) # Current Working File
 cwfd = os.path.dirname(cwf) # Current Working File Path
 #from GitTar import GitTar
-import GitHy_BootStrap
+import getwheel_bootstrap
 #______________________________________________________________________Functions
 #https://github.com/cython/cython
-#GitHy_BootStrap.PkgInstall(PkgName="alive-progress", GitUrl="https://github.com/rsalmei/alive-progress.git", TagName="", cwfd=cwfd)
+#getwheel_bootstrap.PkgInstall(PkgName="alive-progress", GitUrl="https://github.com/rsalmei/alive-progress.git", TagName="", cwfd=cwfd)
     #cython
     #packaging
     #wheel
 
 #____________________________________________________________________Main Script
-#GitHy_BootStrap.PkgInstall(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
-#GitHy_BootStrap.PkgInstall(PkgName="setuptools", GitUrl="https://github.com/pypa/setuptools.git", TagName="v52.0.0", cwfd=cwfd)#v61.2.0
+#getwheel_bootstrap.PkgInstall(PkgName="None", GitUrl=None, TagName=None, cwfd=cwfd)
+#getwheel_bootstrap.PkgInstall(PkgName="setuptools", GitUrl="https://github.com/pypa/setuptools.git", TagName="v52.0.0", cwfd=cwfd)#v61.2.0
 
-GitHy_BootStrap.PkgInstall(PkgName="cython", GitUrl="https://github.com/cython/cython.git", TagName="0.29.28", cwfd=cwfd)
-GitHy_BootStrap.PkgInstall(PkgName="packaging", GitUrl="https://github.com/pypa/packaging.git", TagName="21.3", cwfd=cwfd)
-GitHy_BootStrap.PkgInstall(PkgName="wheel", GitUrl="https://github.com/pypa/wheel.git", TagName="0.37.1", cwfd=cwfd)
+getwheel_bootstrap.PkgInstall(PkgName="cython", GitUrl="https://github.com/cython/cython.git", TagName="0.29.28", cwfd=cwfd)
+getwheel_bootstrap.PkgInstall(PkgName="packaging", GitUrl="https://github.com/pypa/packaging.git", TagName="21.3", cwfd=cwfd)
+getwheel_bootstrap.PkgInstall(PkgName="wheel", GitUrl="https://github.com/pypa/wheel.git", TagName="0.37.1", cwfd=cwfd)
+getwheel_bootstrap.PkgInstall(PkgName="pyyaml", GitUrl="https://github.com/yaml/pyyaml.git", TagName="6.0", cwfd=cwfd)
+#installwheel(cwfd + '/tirerack/' + "PyYAML-6.0-cp39-cp39-linux_x86_64.whl")
 
