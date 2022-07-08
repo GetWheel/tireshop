@@ -7,7 +7,7 @@ all inside a virtual environment, finished wheels go in the tirerack directory.
 
 ```
 git clone https://github.com/GetWheel/tireshop
-cd /path/to/GitHy
+cd /path/to/TireShop
 ./getwheel_bootstrap.py
 ./BootStrap/bin/python3 ./tireshop.py
 ```
